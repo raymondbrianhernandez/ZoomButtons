@@ -1,0 +1,61 @@
+/*
+ *  Raymond Hernandez
+ *  ZOOM Buttons 2.0
+ *  
+ *  Pin 0 → I2C SDA, PWM (LED on Model B)
+ *  Pin 1 → PWM (LED on Model A)
+ *  Pin 2 → I2C SCK, Analog In
+ *  Pin 3 → Analog In (also used for USB+ when USB is in use)
+ *  Pin 4 → PWM, Analog (also used for USB- when USB is in use)
+ *  Pin 5 → Analog In
+ * 
+ */
+
+#include <OneButton.h>
+#include <DigiKeyboardFr.h>
+
+int button1pin = 0;
+int button2pin = 3;
+int button3pin = 2;
+OneButton button1(button1pin, true);
+OneButton button2(button2pin, true);
+OneButton button3(button3pin, true);
+
+void setup() {
+  button1.attachClick(click1);
+  button2.attachClick(click2);
+  button3.attachClick(click3);
+
+  DigiKeyboard.sendKeyStroke(0);
+  DigiKeyboard.delay(500);
+}
+
+void loop() {
+  button1.tick();
+  button2.tick();
+  button3.tick();
+}
+
+// Alt-A - Turn On/Off Microphone
+void click1() {
+  DigiKeyboard.sendKeyStroke(0);
+  DigiKeyboard.sendKeyStroke(0, MOD_SHIFT_LEFT | MOD_CONTROL_LEFT | MOD_ALT_LEFT);
+  DigiKeyboard.delay(100); 
+  DigiKeyboard.sendKeyStroke(KEY_A, MOD_ALT_LEFT);
+} 
+
+// Alt-Y - Raise/Lower Hand
+void click2() {
+  DigiKeyboard.sendKeyStroke(0);
+  DigiKeyboard.sendKeyStroke(0, MOD_SHIFT_LEFT | MOD_CONTROL_LEFT | MOD_ALT_LEFT);
+  DigiKeyboard.delay(100); 
+  DigiKeyboard.sendKeyStroke(KEY_Y, MOD_ALT_LEFT);
+} 
+
+// Alt-V - Turn On/Off Video
+void click3() {
+  DigiKeyboard.sendKeyStroke(0);
+  DigiKeyboard.sendKeyStroke(0, MOD_SHIFT_LEFT | MOD_CONTROL_LEFT | MOD_ALT_LEFT);
+  DigiKeyboard.delay(100); 
+  DigiKeyboard.sendKeyStroke(KEY_V, MOD_ALT_LEFT);
+} 
